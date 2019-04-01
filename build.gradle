@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+group 'com.cyr1en'
+version '0.0.1-Pre-Alpha'
+
+sourceCompatibility = 1.8
+
+shadowJar {
+    archiveName = "${project.name}-${version}.jar"
+    relocate 'net.dv8tion.jda', 'com.cyr1en.whiterose.jda'
+    manifest {
+        attributes 'Main-Class': 'com.cyr1en.m1.Launch'
+    }
+}
+
+artifacts {
+    archives shadowJar
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    compile group: 'net.dv8tion', name: 'JDA', version: '3.8.3_460'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
